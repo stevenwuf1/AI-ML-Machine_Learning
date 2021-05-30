@@ -1,0 +1,51 @@
+from sklearn import preprocessing
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets.samples_generator import make_classification
+import matplotlib.pyplot as plt
+from matplotlib.pylab import rcParams
+rcParams['figure.figsize'] = 8, 5
+
+#產生資料
+X, y = make_classification(n_samples=5000,
+                           n_features=2,
+                           n_redundant=0,
+                           n_informative=2,
+                           random_state=23,
+                           n_clusters_per_class=2,
+                           scale=100)
+# 將資料可視化
+plt.scatter(X[:, 0], X[:, 1], c=y)
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.show()
+
+from sklearn.svm import SVC
+
+# 將資料做z-score normalization
+X = preprocessing.scale(X)    #Z-score normalize
+# 將資料分成訓練及測試集
+X_train, X_test, y_train, y_test = train_test_split(X,
+                                                    y,
+                                                    test_size=0.3,
+                                                    random_state=42)
+# import svm classifier
+model = SVC()
+model.fit(X_train, y_train)
+prediction = model.predict(X)
+print('accuracy after normalization:%.2f' % model.score(X_test, y_test))
+
+
+# 畫出原始資料
+plt.subplot(121)
+plt.scatter(X[:, 0], X[:, 1], c=y)
+plt.title('Actual')
+plt.xlabel('X1')
+plt.ylabel('X2')
+# 畫出預測結果
+plt.subplot(122)
+plt.scatter(X[:, 0], X[:, 1], c=prediction)
+plt.title('Prediction')
+plt.xlabel('X1')
+plt.ylabel('X2')
+plt.show()
