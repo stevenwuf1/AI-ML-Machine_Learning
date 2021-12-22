@@ -5,7 +5,7 @@ from sklearn.datasets.samples_generator import make_classification
 import matplotlib.pyplot as plt
 from matplotlib.pylab import rcParams
 rcParams['figure.figsize'] = 8, 5
-
+#test
 #產生資料
 X, y = make_classification(n_samples=5000,
                            n_features=2,
